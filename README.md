@@ -21,8 +21,6 @@ Copy this key, as we will need it later when creating a remote model in Flink.
 [Sign up](https://www.confluent.io/confluent-cloud/tryfree) for a free trial if you don't already have one.
 * The Confluent CLI. 
 Refer to the installation instructions [here](https://docs.confluent.io/confluent-cli/current/install.html).
-* A MongoDB Atlas account. 
-Follow the steps later in this README to set it up.
 
 ## Provision Kafka cluster
 
@@ -55,7 +53,7 @@ The output of this command will contain Kafka and Schema Registry API connection
 
 ## Produce reviews
 
-Now we can produce product reviews into a `product_reviews` topic on Confluent Cloud.
+Now we can produce product reviews into a `restaurant_reviews` topic on Confluent Cloud.
 
 First, create the topic by running the following command in your terminal:
 
@@ -105,12 +103,7 @@ create accompanying orders in MongoDB Atlas in a later section.
   ```shell
     python restaurant_reviews_producer.py
   ```
-  
-  ```shell
-    python user_visit_producer.py
-  ```
-
-  You should see output like:
+    You should see output like:
   ```shell
     Producing restaurant review records to topic restaurant_reviews. ^C to exit.
     Review record with Id b'LON004' successfully produced to Topic:restaurant_reviews Partition: [4] at offset 0
@@ -120,6 +113,10 @@ create accompanying orders in MongoDB Atlas in a later section.
     Review record with Id b'LON003' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 2
     Review record with Id b'LON001' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 3
   ...
+  ```
+  
+  ```shell
+    python user_visit_producer.py
   ```
 
   ```shell
