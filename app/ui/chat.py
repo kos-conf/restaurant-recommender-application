@@ -7,6 +7,10 @@ API_BASE = "http://localhost:8000"  # Change if your FastAPI backend runs elsewh
 
 st.set_page_config(page_title="🍽️ Restaurant Recommender Chatbot", page_icon="🍽️", layout="wide")
 
+# Add a colored title at the top left using Streamlit native components
+st.title(" 🍽️ :blue[Restaurant Recommender Chatbot] :sunglasses:")
+st.markdown("<span style='color:#8B4513; font-size:1.2rem; text-align:center;'>Your AI-powered food companion</span>", unsafe_allow_html=True)
+
 # Add a banner image at the top with reduced height
 st.image("static/street-food-still-life.jpg", width=1200, use_container_width=False, caption=None, output_format="auto", channels="RGB", clamp=False)
 
