@@ -7,8 +7,8 @@ API_BASE = "http://localhost:8000"  # Change if your FastAPI backend runs elsewh
 
 st.set_page_config(page_title="🍽️ Restaurant Recommender Chatbot", page_icon="🍽️", layout="wide")
 
-# Add a banner image at the top
-st.image("static/agent.jpg", use_container_width=True)
+# Add a banner image at the top with reduced height
+st.image("static/street-food-still-life.jpg", width=1200, use_container_width=False, caption=None, output_format="auto", channels="RGB", clamp=False)
 
 # --- Session State ---
 if "chat_history" not in st.session_state:
