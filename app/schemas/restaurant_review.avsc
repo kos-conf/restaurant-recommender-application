@@ -1,0 +1,31 @@
+{
+    "namespace": "com.example.restaurant.recommender",
+    "name": "restaurant_review_value",
+    "type": "record",
+    "fields": [
+        {
+            "name": "restaurant_id",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "restaurant_name",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "user_id",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "review_text",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "food_items_mentioned_in_review",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "rating",
+            "type": ["null", "string"]
+        }
+    ]
+}

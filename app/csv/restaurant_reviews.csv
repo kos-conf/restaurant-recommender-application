@@ -1,0 +1,6 @@
+restaurant_id,restaurant_name,user_id,review_text,food_items_mentioned_in_review,rating
+LON001,"The Fryer's Delight",U2001,"Proper Fish and Chips, crispy batter and flaky cod. Best in Holborn!","Fish and Chips","5"
+LON002,"Dishoom Shoreditch",U2001,"The Bacon Naan Roll is a must-try for breakfast. Great buzz but long queues.","Bacon Naan Roll, Chai","4"
+LON003,"Padella Borough Market",U2002,"Pici Cacio e Pepe was stunningly simple and delicious. Authentic Italian pasta.","Pici Cacio e Pepe, Pasta","5"
+LON001,"The Fryer's Delight",U2003,"Soggy chips and the fish was a bit oily today. Usually much better.","Fish and Chips","2"
+LON004,"The Churchill Arms",U2002,"Fantastic Thai food in a classic pub setting! Green Curry was spot on.","Thai Green Curry, Pub food","4"

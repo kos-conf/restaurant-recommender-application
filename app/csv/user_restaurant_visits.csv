@@ -1,0 +1,6 @@
+visit_id,user_id,restaurant_id,restaurant_name,food_items_ordered,visit_date
+VLDN01,U2001,LON001,"The Fryer's Delight","Fish and Chips, Mushy Peas","2025-03-20"
+VLDN02,U2001,LON002,"Dishoom Shoreditch","Bacon Naan Roll, Masala Chai","2025-03-25"
+VLDN03,U2002,LON003,"Padella Borough Market","Pici Cacio e Pepe, Burrata","2025-04-02"
+VLDN04,U2003,LON001,"The Fryer's Delight","Sausage and Chips","2025-04-05"
+VLDN05,U2001,LON004,"The Churchill Arms","Pad Thai, Singha Beer","2025-04-12"

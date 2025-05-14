@@ -1,0 +1,22 @@
+{
+    "namespace": "com.example.restaurant.recommender",
+    "name": "user_recommendation_requests_value",
+    "type": "record",
+    "fields": [
+        {
+            "name": "request_id",
+            "type": ["null", "string"],
+            "default": null
+        },
+        {
+            "name": "user_id",
+            "type": ["null", "string"],
+            "default": null
+        },
+        {
+            "name": "desired_food_items",
+            "type": ["null", "string"],
+            "default": null
+        }
+    ]
+}

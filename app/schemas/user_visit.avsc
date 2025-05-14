@@ -1,0 +1,31 @@
+{
+    "namespace": "com.example.restaurant.recommender",
+    "name": "user_restaurant_visits_value",
+    "type": "record",
+    "fields": [
+        {
+            "name": "visit_id",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "user_id",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "restaurant_id",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "restaurant_name",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "food_items_ordered",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "visit_date",
+            "type": ["null", "string"]
+        }
+    ]
+}
