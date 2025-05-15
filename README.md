@@ -10,10 +10,14 @@ The following steps and tools are required to run this demo:
 
 * Clone this repo if you haven't already and `cd` into the `agentic-rag` directory:
 
-  ```bash
-  git clone https://github.com/confluentinc/demo-scene
+  ```shell
+  git clone https://github.com/kos-conf/restaurant-recommender-application.git
+  ```
+
+  ```shell
   cd agentic-rag
   ```
+
 * An OpenAI account and API key. 
 Once you sign up and add money to your account, go to the [Project API keys page](https://platform.openai.com/api-keys) and click `Create new secret key`. 
 Copy this key, as we will need it later when creating a remote model in Flink.
@@ -49,7 +53,7 @@ confluent cloud-kickstart --name agentic-rag \
   --output-format stdout
 ```
 
-The output of this command will contain Kafka and Schema Registry API connection properties that we will use in the next section.
+The output of this command will contain Kafka and Schema Registry API connection properties that we will use in the next section. Please make sure you copy and keep in your notes.
 
 ## Produce reviews
 
