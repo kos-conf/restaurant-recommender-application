@@ -15,7 +15,7 @@ The following steps and tools are required to run this demo:
   ```
 
   ```shell
-  cd agentic-rag
+  cd restaurant-recommender-application
   ```
 
 * An OpenAI account and API key. 
@@ -141,7 +141,7 @@ selecting the `agentic-rag` environment, and then clicking the `Flink` tab in th
 
 ![Flink tab](img/cc-flink-tab.png)
 
-Click the `Create compute pool` button, pick the same cloud and region that you used earlier in the 
+Click the `Create compute pool` button, pick the cloud `aws` and region `us-east-2` that you used earlier in the 
 `confluent cloud-kickstart` command, and then click `Create`.
 
 You will see the compute pool tile showing that the pool is `Provisioning`:
@@ -178,7 +178,8 @@ WITH (
     'openai.model_version' = 'gpt-4o-mini',
     'openai.system_prompt' = 'Analyze the sentiment of the restaurant review text and return ONLY "Positive", "Negative", or "Neutral".'
 );
-
+```
+```sql
 CREATE MODEL restaurant_extract_food_cuisine
 INPUT(text STRING)
 OUTPUT(extracted_food_cuisine STRING)
@@ -189,7 +190,8 @@ WITH (
     'openai.model_version' = 'gpt-4o-mini',
     'openai.system_prompt' = 'Extract key food items or cuisine types mentioned in this review text. Return them as a comma-separated list. If none, return empty string.'
 );
-
+```
+```sql
 CREATE MODEL restaurant_recommender_agent
 INPUT(prompt STRING)
 OUTPUT(recommendation_and_explanation STRING)
@@ -201,7 +203,6 @@ WITH (
     'openai.system_prompt' = 'You are a helpful restaurant recommender. Based on the provided context such as user preferences, desired food, past experiences, and relevant reviews, recommend up to 3 restaurants including their names. For each, provide a brief explanation for why it is recommended. If context is minimal, do your best with available information. Format your output clearly.'
 );
 ```
-
 ## Create derived topic with review data for prompt request
 
 Click `+` in the SQL workspace to open a second panel:
@@ -215,7 +216,8 @@ CREATE TABLE user_recommendation_requests (
     user_id STRING,
     desired_food_items STRING
 );
-
+```
+```sql
 CREATE TABLE recommendation_results (
     request_id STRING,
     user_id STRING,
@@ -223,7 +225,8 @@ CREATE TABLE recommendation_results (
     recommended_restaurants_and_explanation STRING,
     generation_time STRING
 )
-
+```
+```sql
 CREATE TABLE enriched_restaurant_reviews (
     restaurant_id STRING,
     restaurant_name STRING,
@@ -234,7 +237,8 @@ CREATE TABLE enriched_restaurant_reviews (
     ai_sentiment STRING,
     ai_extracted_food_cuisine STRING
 )
-
+```
+```sql
 INSERT INTO enriched_restaurant_reviews
 SELECT
     rr.restaurant_id,
@@ -249,7 +253,8 @@ FROM
     restaurant_reviews rr,
     LATERAL TABLE(ML_PREDICT('restaurant_review_sentiment', rr.review_text)) rs,
     LATERAL TABLE(ML_PREDICT('restaurant_extract_food_cuisine', rr.review_text)) efc;
-
+```
+```sql
 INSERT INTO recommendation_results
 SELECT
     req.request_id,
