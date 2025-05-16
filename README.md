@@ -8,7 +8,7 @@ This demo leverages components in Confluent Cloud in order to show how to build 
 
 The following steps and tools are required to run this demo:
 
-* Clone this repo if you haven't already and `cd` into the `agentic-rag` directory:
+* Clone this repo if you haven't already and `cd` into the `restaurant-recommender-application` directory:
 
   ```shell
   git clone https://github.com/kos-conf/restaurant-recommender-application.git
@@ -72,6 +72,11 @@ Second, Create a virtual environment and activater it by running the following c
 ```shell
 python -m venv venv
 ```
+If above didn't work, use below command:
+```shell
+python3 -m venv venv
+```
+
 For Mac machines
 ```shell
 source venv/bin/activate
@@ -91,10 +96,10 @@ Feel free to add additional rows or edit the reviews. Not, though, that for the 
 create accompanying orders in MongoDB Atlas in a later section.
 
 * Open the files `app/producer/restaurant_reviews_producer.py` and `app/producer/user_visit_producer.csv`, find where the `cc_config` and `sr_config` objects are instantiated.
-  * Substitute the `Bootstrap servers endpoint` output earlier for `<BOOTSTRAP SERVERS ENDPOINT>`
+  * Substitute the `Bootstrap servers endpoint` output earlier for `<BOOTSTRAP SERVERS ENDPOINT>` -- Do not contain `https://`
   * Substitute the `Kafka API key` output earlier for `<KAFKA API KEY>`
   * Substitute the `Kafka API secret` output earlier for `<KAFKA API SECRET>`
-  * Substitute the `Schema Registry Endpoint` output earlier for `<SR ENDPOINT URL>`
+  * Substitute the `Schema Registry Endpoint` output earlier for `<SR ENDPOINT URL>` -- Contains `https://`
   * Substitute the `Schema Registry API key` output earlier for `<SR API KEY>`
   * Substitute the `Schema Registry API secret` output earlier for `<SR API SECRET>`
 
@@ -103,10 +108,11 @@ create accompanying orders in MongoDB Atlas in a later section.
   ```shell
     cd app/producer
   ```
-
+  use python3 if you have python3
   ```shell
     python restaurant_reviews_producer.py
   ```
+  
     You should see output like:
   ```shell
     Producing restaurant review records to topic restaurant_reviews. ^C to exit.
@@ -118,7 +124,7 @@ create accompanying orders in MongoDB Atlas in a later section.
     Review record with Id b'LON001' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 3
   ...
   ```
-  
+  use python3 if you have python3
   ```shell
     python user_visit_producer.py
   ```
@@ -272,7 +278,7 @@ FROM
 
 ## Running the Agentic RAG Demo Application
 
-### 1. Start the FastAPI Backend
+### 1. Start the FastAPI Backend by going
 
 ```bash
 uvicorn app.server.main:app --host 0.0.0.0 --port 8000
@@ -281,7 +287,7 @@ uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 
 ### 3. Start the Streamlit UI
 
-In a new terminal:
+In a new terminal and activate the virtual environemnt
 
 ```bash
 streamlit run app/ui/chat.py
@@ -318,7 +324,9 @@ I have been to <restaurant name> i did not like the taste, recommend me alternat
 
 ## Tear down infrastructure
 
-Once you are done exploring, don't forget to tear down the MongoDB Atlas and Confluent Cloud resources created for this demo.
+Once you are done exploring, don't forget to tear down Confluent Cloud resources created for this demo.
+
+**First stop all the statements before we execute the next steps (!Important)**
 
 On the Confluent Cloud side, since you created all resources in an environment, you can simply delete the environment and then all resources created for this demo will be deleted (i.e., the Kafka cluster, connector, Flink compute pool, and associated API keys). 
 Run the following command in your terminal to get the environment ID of the form `env-123456` corresponding to the environment named `agentic-rag:
