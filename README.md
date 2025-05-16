@@ -326,7 +326,7 @@ I have been to <restaurant name> i did not like the taste, recommend me alternat
 
 Once you are done exploring, don't forget to tear down Confluent Cloud resources created for this demo.
 
-**First stop all the statements before we execute the next steps (!Important)**
+**First stop all the Flink statements in SQL Workspace before we execute the next steps (!Important)**
 
 On the Confluent Cloud side, since you created all resources in an environment, you can simply delete the environment and then all resources created for this demo will be deleted (i.e., the Kafka cluster, connector, Flink compute pool, and associated API keys). 
 Run the following command in your terminal to get the environment ID of the form `env-123456` corresponding to the environment named `agentic-rag:
