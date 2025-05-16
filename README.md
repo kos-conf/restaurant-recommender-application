@@ -288,7 +288,9 @@ uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 ### 3. Start the Streamlit UI
 
 In a new terminal and activate the virtual environemnt
-
+```bash
+source venv/bin/activate
+```
 ```bash
 streamlit run app/ui/chat.py
 ```
@@ -298,7 +300,7 @@ streamlit run app/ui/chat.py
 ```bash
 "I want to try tasty Pizzas in London"
 ```
-### 5. We will test the RAG by giving some output like this:
+### 5. We will test again by giving some output like this:
 ```bash
 I have been to <restaurant name> i did not like the taste, recommend me alternatives for Pizza
 ```
