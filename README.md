@@ -95,7 +95,7 @@ Next, inspect the `app/csv/restaurant_reviews.csv` and `app/csv/user_restaurant_
 Feel free to add additional rows or edit the reviews. Not, though, that for the RAG aspect of this demo you'll also need to 
 create accompanying orders in MongoDB Atlas in a later section.
 
-* Open the files `app/producer/restaurant_reviews_producer.py` and `app/producer/user_visit_producer.csv`, find where the `cc_config` and `sr_config` objects are instantiated.
+* Open the files `app/producer/restaurant_reviews_producer.py`, `app/producer/user_visit_producer.py` and `app/server/main.py`, find where the `cc_config` and `sr_config` objects are instantiated.
   * Substitute the `Bootstrap servers endpoint` output earlier for `<BOOTSTRAP SERVERS ENDPOINT>` -- Do not contain `https://`
   * Substitute the `Kafka API key` output earlier for `<KAFKA API KEY>`
   * Substitute the `Kafka API secret` output earlier for `<KAFKA API SECRET>`
