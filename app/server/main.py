@@ -25,19 +25,19 @@ app.add_middleware(
 )
 
 KAFKA_CONFIG = {
-    'bootstrap.servers': 'pkc-921jm.us-east-2.aws.confluent.cloud:9092',
+    'bootstrap.servers': '<BOOTSTRAP SERVERS ENDPOINT>',
     'security.protocol': 'SASL_SSL',
     'sasl.mechanisms': 'PLAIN',
-    'sasl.username': 'UFBQII2GABZX2WP6',
-    'sasl.password': 'TCcljEy0zUPW0jXHvZ7F2dmnFdYM9gi4qD/f/XStPqwT3m7ejpZkSjM9Mk9V874D',
+    'sasl.username': '<KAFKA API KEY>',
+    'sasl.password': '<KAFKA API SECRET>',
     'group.id': 'fastapi-backend-group2',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': False,
 }
 
 SCHEMA_REGISTRY_CONFIG = {
-    'url': 'https://psrc-l6oz3.us-east-2.aws.confluent.cloud',
-    'basic.auth.user.info': 'FIV6SF2KVDL3JWQD:h9FyumGZmY4kWI2orSCD1NRHFkHAFsAxfX+DRMlpEZxTUnxOKWWKSZt/wQwoGxYk'
+    'url': '<SR ENDPOINT URL>',
+    'basic.auth.user.info': '<SR API KEY>:<SR API SECRET>'
 }
 
 TOPICS = {
