@@ -94,7 +94,7 @@ def main():
 
     sr_config = {
         'url': os.getenv("SR_ENDPOINT_URL"),
-        'basic.auth.user.info': f'{os.getenv("SR_API_KEY")}:f{os.getenv("SR_API_SECRET")}'
+        'basic.auth.user.info': f'{os.getenv("SR_API_KEY")}:{os.getenv("SR_API_SECRET")}'
     }
 
     with open(f"{schema}") as f:
