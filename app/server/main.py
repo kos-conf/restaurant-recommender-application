@@ -13,6 +13,8 @@ from datetime import datetime
 import uuid
 import os
 
+from dotenv import load_dotenv
+
 app = FastAPI()
 
 # Allow CORS for local development
@@ -24,20 +26,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Load variables from .env file into the environment
+load_dotenv()
+
 KAFKA_CONFIG = {
-    'bootstrap.servers': '<BOOTSTRAP SERVERS ENDPOINT>',
+    'bootstrap.servers': os.getenv("BOOTSTRAP_SERVERS"),
     'security.protocol': 'SASL_SSL',
     'sasl.mechanisms': 'PLAIN',
-    'sasl.username': '<KAFKA API KEY>',
-    'sasl.password': '<KAFKA API SECRET>',
+    'sasl.username': os.getenv("KAFKA_API_KEY"),
+    'sasl.password': os.getenv("KAFKA_API_SECRET"),
     'group.id': 'fastapi-backend-group2',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': False,
 }
 
 SCHEMA_REGISTRY_CONFIG = {
-    'url': '<SR ENDPOINT URL>',
-    'basic.auth.user.info': '<SR API KEY>:<SR API SECRET>'
+    'url': os.getenv("SR_ENDPOINT_URL"),
+    'basic.auth.user.info': f'{os.getenv("SR_API_KEY")}:f{os.getenv("SR_API_SECRET")}'
 }
 
 TOPICS = {

@@ -1,5 +1,7 @@
+import os
 import csv
 
+from dotenv import load_dotenv
 from confluent_kafka import Producer
 from confluent_kafka.serialization import SerializationContext, MessageField, StringSerializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
@@ -80,17 +82,19 @@ def main():
     topic = 'restaurant_reviews'
     schema = '../schemas/restaurant_review.avsc'
 
+    # Load variables from .env file into the environment
+    load_dotenv()
     cc_config = {
-        'bootstrap.servers': '<BOOTSTRAP SERVERS ENDPOINT>',
+        'bootstrap.servers': os.getenv("BOOTSTRAP_SERVERS"),
         'security.protocol': 'SASL_SSL',
         'sasl.mechanisms': 'PLAIN',
-        'sasl.username': '<KAFKA API KEY>',
-        'sasl.password': '<KAFKA API SECRET>'
+        'sasl.username': os.getenv("KAFKA_API_KEY"),
+        'sasl.password': os.getenv("KAFKA_API_SECRET")
     }
 
     sr_config = {
-        'url': '<SR ENDPOINT URL>',
-        'basic.auth.user.info': '<SR API KEY>:<SR API SECRET>'
+        'url': os.getenv("SR_ENDPOINT_URL"),
+        'basic.auth.user.info': f'{os.getenv("SR_API_KEY")}:f{os.getenv("SR_API_SECRET")}'
     }
 
     with open(f"{schema}") as f:

@@ -95,13 +95,15 @@ Next, inspect the `app/csv/restaurant_reviews.csv` and `app/csv/user_restaurant_
 Feel free to add additional rows or edit the reviews. Not, though, that for the RAG aspect of this demo you'll also need to 
 create accompanying orders in MongoDB Atlas in a later section.
 
-* Open the files `app/producer/restaurant_reviews_producer.py`, `app/producer/user_visit_producer.py` and `app/server/main.py`, find where the `cc_config` and `sr_config` objects are instantiated.
-  * Substitute the `Bootstrap servers endpoint` output earlier for `<BOOTSTRAP SERVERS ENDPOINT>` -- Do not contain `https://`
-  * Substitute the `Kafka API key` output earlier for `<KAFKA API KEY>`
-  * Substitute the `Kafka API secret` output earlier for `<KAFKA API SECRET>`
-  * Substitute the `Schema Registry Endpoint` output earlier for `<SR ENDPOINT URL>` -- Contains `https://`
-  * Substitute the `Schema Registry API key` output earlier for `<SR API KEY>`
-  * Substitute the `Schema Registry API secret` output earlier for `<SR API SECRET>`
+* Edit the `.env` file and enter the endpoints and credentials for your Kafka and Schema Registry clusters:
+```
+BOOTSTRAP_SERVERS="pkc-xxxxx.region.cloud_provider.confluent.cloud:9092"
+KAFKA_API_KEY="ABC123XYZ"
+KAFKA_API_SECRET="supersecret"
+SR_ENDPOINT_URL="https://psrc-xxxxx.region.cloud_provider.confluent.cloud"
+SR_API_KEY="DEF456UVW"
+SR_API_SECRET="anothersecret"
+```
 
 * Now run the Python programs to produce the reviews in the CSV file to the `restaurant_reviews` and `user_restaurant_visits` topic.
   
