@@ -57,8 +57,8 @@ The output of this command will contain Kafka and Schema Registry API connection
 
 ```shell
 Creating new environment agentic-rag
-Setting the active environment to agentic-rag (env-v513n5)
-Using environment env-v513n5.
+Setting the active environment to agentic-rag (env-xxxxx)
+Using environment env-xxxxx.
 Creating the Kafka cluster
 Generating API keys for the Kafka cluster
 Generating API keys for Schema Registry
