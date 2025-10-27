@@ -53,7 +53,26 @@ confluent cloud-kickstart --name agentic-rag \
   --output-format stdout
 ```
 
-The output of this command will contain Kafka and Schema Registry API connection properties that we will use in the next section. Please make sure you copy and keep in your notes.
+The output of this command will contain Kafka and Schema Registry API connection properties that we will use in the next section (see example below). Please make sure you copy and keep in your notes.
+
+```shell
+Creating new environment agentic-rag
+Setting the active environment to agentic-rag (env-v513n5)
+Using environment env-v513n5.
+Creating the Kafka cluster
+Generating API keys for the Kafka cluster
+Generating API keys for Schema Registry
+Enabling the API key for the Kafka cluster
+Setting created cluster for use in subsequent commands
+
+Kafka bootstrap servers endpoint: pkc-xxxxx.us-east-2.aws.confluent.cloud:9092
+Kafka API key:                    <REDACTED>
+Kafka API secret:                 <REDACTED>
+
+Schema Registry Endpoint:   https://psrc-xxxxx.us-east-2.aws.confluent.cloud
+Schema Registry API key:    <REDACTED>
+Schema Registry API secret: <REDACTED>
+```
 
 ## Produce reviews
 
@@ -95,14 +114,14 @@ Next, inspect the `app/csv/restaurant_reviews.csv` and `app/csv/user_restaurant_
 Feel free to add additional rows or edit the reviews. Not, though, that for the RAG aspect of this demo you'll also need to 
 create accompanying orders in MongoDB Atlas in a later section.
 
-* Edit the `.env` file and enter the endpoints and credentials for your Kafka and Schema Registry clusters:
+* Edit the `.env` file and enter the endpoints and credentials for your Kafka and Schema Registry clusters (as per output of the command `confluent cloud-kickstart...`):
 ```
-BOOTSTRAP_SERVERS="pkc-xxxxx.region.cloud_provider.confluent.cloud:9092"
-KAFKA_API_KEY="ABC123XYZ"
-KAFKA_API_SECRET="supersecret"
-SR_ENDPOINT_URL="https://psrc-xxxxx.region.cloud_provider.confluent.cloud"
-SR_API_KEY="DEF456UVW"
-SR_API_SECRET="anothersecret"
+BOOTSTRAP_SERVERS=<Kafka bootstrap servers endpoint>
+KAFKA_API_KEY=<Kafka API key>
+KAFKA_API_SECRET=<Kafka API secret>
+SR_ENDPOINT_URL=<Schema Registry Endpoint>
+SR_API_KEY=<Schema Registry API key>
+SR_API_SECRET=<Schema Registry API secret>
 ```
 
 * Now run the Python programs to produce the reviews in the CSV file to the `restaurant_reviews` and `user_restaurant_visits` topic.
