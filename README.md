@@ -114,6 +114,11 @@ Next, inspect the `app/csv/restaurant_reviews.csv` and `app/csv/user_restaurant_
 Feel free to add additional rows or edit the reviews. Not, though, that for the RAG aspect of this demo you'll also need to 
 create accompanying orders in MongoDB Atlas in a later section.
 
+* Create the `.env` file by making a copy of the `.env_example` file:
+```shell
+cp .env_example .env
+```
+
 * Edit the `.env` file and enter the endpoints and credentials for your Kafka and Schema Registry clusters (as per output of the command `confluent cloud-kickstart...`):
 ```
 BOOTSTRAP_SERVERS=<Kafka bootstrap servers endpoint>
