@@ -332,7 +332,6 @@ FROM
 ### 1. Start the FastAPI Backend by going
 
 ```bash
-cd ../..
 uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 ```
 - The backend will be available at: http://localhost:8000/chat/messages
@@ -343,9 +342,11 @@ In a new terminal and activate the virtual environemnt
 ```bash
 source .venv/bin/activate
 ```
+
 ```bash
 streamlit run app/ui/chat.py
 ```
+
 - If prompted, no need to enter an email address, just type `[ENTER]`
 - The UI will open in your browser (default: http://localhost:8501)
 
