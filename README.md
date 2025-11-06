@@ -89,17 +89,14 @@ confluent kafka topic create user_restaurant_visits
 
 Second, Create a virtual environment and activater it by running the following command in your terminal:
 ```shell
-python -m venv venv
-```
-If above didn't work, use below command:
-```shell
-python3 -m venv venv
+python3 -m venv .venv
 ```
 
 For Mac machines
 ```shell
-source venv/bin/activate
+source .venv/bin/activate
 ```
+
 For Windows machines
 ```shell
 .\scripts\bin\activate.bat
@@ -131,39 +128,40 @@ SR_API_SECRET=<Schema Registry API secret>
 
 * Now run the Python programs to produce the reviews in the CSV file to the `restaurant_reviews` and `user_restaurant_visits` topic.
   
-  ```shell
-    cd app/producer
-  ```
-  use python3 if you have python3
-  ```shell
-    python restaurant_reviews_producer.py
-  ```
-  
-    You should see output like:
-  ```shell
-    Producing restaurant review records to topic restaurant_reviews. ^C to exit.
-    Review record with Id b'LON004' successfully produced to Topic:restaurant_reviews Partition: [4] at offset 0
-    %6|1747195126.651|GETSUBSCRIPTIONS|rdkafka#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to ajEQZAiiSmuaMyA9tBppOQ
-    Review record with Id b'LON001' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 0
-    Review record with Id b'LON002' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 1
-    Review record with Id b'LON003' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 2
-    Review record with Id b'LON001' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 3
-  ...
-  ```
-  use python3 if you have python3
-  ```shell
-    python user_visit_producer.py
-  ```
+```shell
+cd app/producer
+```
 
-  ```shell
-    Producing user visit records to topic user_restaurant_visits. ^C to exit.
-    %6|1747195184.626|GETSUBSCRIPTIONS|rdkafka#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to PtsLRitsQ3WqMdBz68BGVQ
-    Visit record with Id b'VLDN01' successfully produced to Topic:user_restaurant_visits Partition: [4] at offset 0
-    Visit record with Id b'VLDN03' successfully produced to Topic:user_restaurant_visits Partition: [4] at offset 1
-    Visit record with Id b'VLDN04' successfully produced to Topic:user_restaurant_visits Partition: [1] at offset 0
-    Visit record with Id b'VLDN05' successfully produced to Topic:user_restaurant_visits Partition: [1] at offset 1
-    Visit record with Id b'VLDN02' successfully produced to Topic:user_restaurant_visits Partition: [2] at offset 0
-  ```
+use python3 if you have python3
+```shell
+python restaurant_reviews_producer.py
+```
+  
+You should see output like:
+```shell
+Producing restaurant review records to topic restaurant_reviews. ^C to exit.
+Review record with Id b'LON004' successfully produced to Topic:restaurant_reviews Partition: [4] at offset 0
+%6|1747195126.651|GETSUBSCRIPTIONS|rdkafka#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to ajEQZAiiSmuaMyA9tBppOQ
+Review record with Id b'LON001' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 0
+Review record with Id b'LON002' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 1
+Review record with Id b'LON003' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 2
+Review record with Id b'LON001' successfully produced to Topic:restaurant_reviews Partition: [3] at offset 3
+```
+
+use python3 if you have python3
+```shell
+python user_visit_producer.py
+```
+
+```shell
+Producing user visit records to topic user_restaurant_visits. ^C to exit.
+%6|1747195184.626|GETSUBSCRIPTIONS|rdkafka#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to PtsLRitsQ3WqMdBz68BGVQ
+Visit record with Id b'VLDN01' successfully produced to Topic:user_restaurant_visits Partition: [4] at offset 0
+Visit record with Id b'VLDN03' successfully produced to Topic:user_restaurant_visits Partition: [4] at offset 1
+Visit record with Id b'VLDN04' successfully produced to Topic:user_restaurant_visits Partition: [1] at offset 0
+Visit record with Id b'VLDN05' successfully produced to Topic:user_restaurant_visits Partition: [1] at offset 1
+Visit record with Id b'VLDN02' successfully produced to Topic:user_restaurant_visits Partition: [2] at offset 0
+```
 
 
 ## Create remote model
@@ -190,14 +188,32 @@ confluent flink connection create openai-connection \
     --type openai \
     --endpoint https://api.openai.com/v1/chat/completions \
     --api-key <OPEN AI API KEY>
-````
+```
+
+The response will be similar to this:
+```shell
+No Flink endpoint is specified, defaulting to public endpoint: https://flink.us-east-2.aws.confluent.cloud
++---------------+--------------------------------------------+
+| Creation Date | 2025-11-06 09:19:18.049131                 |
+|               | +0000 UTC                                  |
+| Name          | openai-connection                          |
+| Environment   | env-XXXXX                                  |
+| Cloud         | aws                                        |
+| Region        | us-east-2                                  |
+| Type          | OPENAI                                     |
+| Endpoint      | https://api.openai.com/v1/chat/completions |
+| Data          | <REDACTED>                                 |
+| Status        |                                            |
++---------------+--------------------------------------------+
+```
 
 Once the Flink compute pool status changes to `Running` (note: you may need to refresh the page), click the `Open SQL workspace` button:
 
 ![Open SQL workspace](img/cc-open-sql-workspace.png)
 
-Copy these commands into the SQL workspace, one at a time, and click `Run`. 
-This defines three models that we will use to enrich the reviews. 
+Copy these statements into the SQL workspace, one at a time, and click `Run`.
+
+This will define three Flink models that we will use to enrich the reviews.
 
 ```sql
 CREATE MODEL restaurant_review_sentiment
@@ -211,6 +227,7 @@ WITH (
     'openai.system_prompt' = 'Analyze the sentiment of the restaurant review text and return ONLY "Positive", "Negative", or "Neutral".'
 );
 ```
+
 ```sql
 CREATE MODEL restaurant_extract_food_cuisine
 INPUT(text STRING)
@@ -223,6 +240,7 @@ WITH (
     'openai.system_prompt' = 'Extract key food items or cuisine types mentioned in this review text. Return them as a comma-separated list. If none, return empty string.'
 );
 ```
+
 ```sql
 CREATE MODEL restaurant_recommender_agent
 INPUT(prompt STRING)
@@ -242,6 +260,7 @@ Click `+` in the SQL workspace to open a second panel:
 ![New SQL workspace panel](img/cc-new-workspace-panel.png)
 
 To create the derived table, copy the following statement into the new panel and click `Run`:
+
 ```sql
 CREATE TABLE user_recommendation_requests (
     request_id STRING,
@@ -249,6 +268,7 @@ CREATE TABLE user_recommendation_requests (
     desired_food_items STRING
 );
 ```
+
 ```sql
 CREATE TABLE recommendation_results (
     request_id STRING,
@@ -258,6 +278,7 @@ CREATE TABLE recommendation_results (
     generation_time STRING
 )
 ```
+
 ```sql
 CREATE TABLE enriched_restaurant_reviews (
     restaurant_id STRING,
@@ -270,6 +291,9 @@ CREATE TABLE enriched_restaurant_reviews (
     ai_extracted_food_cuisine STRING
 )
 ```
+
+The follwing statements will populate the tables `enriched_restaurant_reviews` and `recommendation_results`. Different from the other statements, they will run continuously, reacting to the events as they come.
+
 ```sql
 INSERT INTO enriched_restaurant_reviews
 SELECT
@@ -286,6 +310,7 @@ FROM
     LATERAL TABLE(ML_PREDICT('restaurant_review_sentiment', rr.review_text)) rs,
     LATERAL TABLE(ML_PREDICT('restaurant_extract_food_cuisine', rr.review_text)) efc;
 ```
+
 ```sql
 INSERT INTO recommendation_results
 SELECT
@@ -307,6 +332,7 @@ FROM
 ### 1. Start the FastAPI Backend by going
 
 ```bash
+cd ../..
 uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 ```
 - The backend will be available at: http://localhost:8000
@@ -315,17 +341,19 @@ uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 
 In a new terminal and activate the virtual environemnt
 ```bash
-source venv/bin/activate
+source .venv/bin/activate
 ```
 ```bash
 streamlit run app/ui/chat.py
 ```
+- No need to enter an email address, type [ENTER]
 - The UI will open in your browser (default: http://localhost:8501)
 
 ### 4. Try Inputting some thing like below
 ```bash
-"I want to try tasty Pizzas in London"
+I want to try tasty Pizzas in London
 ```
+
 ### 5. We will test again by giving some output like this:
 ```bash
 I have been to <restaurant name> i did not like the taste, recommend me alternatives for Pizza
@@ -333,30 +361,42 @@ I have been to <restaurant name> i did not like the taste, recommend me alternat
 
 ### 6. Some prompts you can try
 ```bash
-"I want to try out Good Fish and Chips in London" 
-
-"Something like Authentic Italian Pasta in London" 
-
-"Super Spicy Indian Curry in London" 
-
-"Tasty Crispy Fish and Chips, not oily please in London" 
-
-"Best Sunday Roast in London" 
-
-"Something like Padella but different" 
-
-"A famous Thai Green Curry in London"
+I want to try out Good Fish and Chips in London
 ```
 
-### 5. You'll notice different responses for each based on LLM knowledge base and reviews fed as input
+```bash
+Something like Authentic Italian Pasta in London
+```
+
+```bash
+Super Spicy Indian Curry in London
+```
+
+```bash
+Tasty Crispy Fish and Chips, not oily please in London
+```
+
+```bash
+Best Sunday Roast in London
+```
+
+```bash
+Something like Padella but different
+```
+
+```bash
+A famous Thai Green Curry in London
+```
+
+You'll notice different responses for each based on LLM knowledge base and reviews fed as input
 
 ## Tear down infrastructure
-
 Once you are done exploring, don't forget to tear down Confluent Cloud resources created for this demo.
 
 **First stop all the Flink statements in SQL Workspace before we execute the next steps (!Important)**
 
 On the Confluent Cloud side, since you created all resources in an environment, you can simply delete the environment and then all resources created for this demo will be deleted (i.e., the Kafka cluster, connector, Flink compute pool, and associated API keys). 
+
 Run the following command in your terminal to get the environment ID of the form `env-123456` corresponding to the environment named `agentic-rag:
 
 ```shell
@@ -364,7 +404,6 @@ confluent environment list
 ```
 
 Now delete the environment:
-
 ```shell
 confluent environment delete <ENVIRONMENT_ID>
 ```

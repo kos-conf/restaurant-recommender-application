@@ -1,18 +1,32 @@
-import streamlit as st
-import requests
 import time
-import os
+import requests
+
+import streamlit as st
+
 
 API_BASE = "http://localhost:8000"  # Change if your FastAPI backend runs elsewhere
 
-st.set_page_config(page_title="🍽️ Restaurant Recommender Chatbot", page_icon="🍽️", layout="wide")
+st.set_page_config(
+    page_title="🍽️ Restaurant Recommender Chatbot", page_icon="🍽️", layout="wide"
+)
 
 # Add a colored title at the top left using Streamlit native components
 st.title(" 🍽️ :blue[Restaurant Recommender Chatbot] :sunglasses:")
-st.markdown("<span style='color:#8B4513; font-size:1.2rem; text-align:center;'>Your AI-powered food companion</span>", unsafe_allow_html=True)
+st.markdown(
+    "<span style='color:#8B4513; font-size:1.2rem; text-align:center;'>Your AI-powered food companion</span>",
+    unsafe_allow_html=True,
+)
 
 # Add a banner image at the top with reduced height
-st.image("static/street-food-still-life.jpg", width=1200, use_container_width=False, caption=None, output_format="auto", channels="RGB", clamp=False)
+st.image(
+    "static/street-food-still-life.jpg",
+    width=1200,
+    use_container_width=False,
+    caption=None,
+    output_format="auto",
+    channels="RGB",
+    clamp=False,
+)
 
 # --- Session State ---
 if "chat_history" not in st.session_state:
@@ -30,7 +44,12 @@ if st.button("🔄 Reset chat"):
 
 # --- System Welcome Message (only once, not in chat history) ---
 if st.session_state.chat_history == []:
-    st.session_state.chat_history.append(("assistant", "Hello! I'm your restaurant recommender agent. Tell me what food or cuisine you're craving, and I'll suggest the best places for you!"))
+    st.session_state.chat_history.append(
+        (
+            "assistant",
+            "Hello! I'm your restaurant recommender agent. Tell me what food or cuisine you're craving, and I'll suggest the best places for you!",
+        )
+    )
 
 # --- Chat Window with Alignment ---
 for role, message in st.session_state.chat_history:
@@ -53,7 +72,9 @@ if user_input and user_input.strip():
     # Show the user message immediately
     st.session_state.chat_history.append(("user", user_input.strip()))
     try:
-        resp = requests.post(f"{API_BASE}/chat/send", json={"desired_food_items": user_input.strip()})
+        resp = requests.post(
+            f"{API_BASE}/chat/send", json={"desired_food_items": user_input.strip()}
+        )
         resp.raise_for_status()
         data = resp.json()
         request_id = data["request_id"]
@@ -87,4 +108,4 @@ if st.session_state.pending_requests:
             st.rerun()
         elif response_received:
             spinner_placeholder.empty()
-            st.rerun() 
+            st.rerun()
