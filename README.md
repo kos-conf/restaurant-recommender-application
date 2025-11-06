@@ -10,13 +10,13 @@ The following steps and tools are required to run this demo:
 
 * Clone this repo if you haven't already and `cd` into the `restaurant-recommender-application` directory:
 
-  ```shell
-  git clone https://github.com/kos-conf/restaurant-recommender-application.git
-  ```
+```shell
+git clone https://github.com/kos-conf/restaurant-recommender-application.git
+```
 
-  ```shell
-  cd restaurant-recommender-application
-  ```
+```shell
+cd restaurant-recommender-application
+```
 
 * An OpenAI account and API key. 
 Once you sign up and add money to your account, go to the [Project API keys page](https://platform.openai.com/api-keys) and click `Create new secret key`. 
@@ -347,6 +347,7 @@ FROM
 
 In a new terminal and activate the virtual environemnt
 ```bash
+cd restaurant-recommender-application
 source .venv/bin/activate
 ```
 
@@ -359,6 +360,7 @@ uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 ### 2. Start the Streamlit UI
 In a new terminal and activate the virtual environemnt
 ```bash
+cd restaurant-recommender-application
 source .venv/bin/activate
 ```
 
