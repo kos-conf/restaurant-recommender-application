@@ -132,7 +132,6 @@ SR_API_SECRET=<Schema Registry API secret>
 cd app/producer
 ```
 
-use python3 if you have python3
 ```shell
 python restaurant_reviews_producer.py
 ```
@@ -331,18 +330,24 @@ FROM
 
 ### 1. Start the FastAPI Backend by going
 
+In a new terminal and activate the virtual environemnt
+```bash
+source .venv/bin/activate
+```
+
+In the main folder and start the backend application
 ```bash
 uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 ```
 - The backend will be available at: http://localhost:8000/chat/messages
 
 ### 2. Start the Streamlit UI
-
 In a new terminal and activate the virtual environemnt
 ```bash
 source .venv/bin/activate
 ```
 
+In the main folder and start the WebUI application
 ```bash
 streamlit run app/ui/chat.py
 ```
