@@ -50,10 +50,10 @@ confluent cloud-kickstart --name agentic-rag \
   --env agentic-rag \
   --cloud aws \
   --region us-east-2 \
-  --output-format stdout
+  --output-format stdout > agentic-rag.txt
 ```
 
-The output of this command will contain Kafka and Schema Registry API connection properties that we will use in the next section (see example below). Please make sure you copy and keep in your notes.
+This command will contain Kafka and Schema Registry API connection properties that we will use in the next section (see example below), they will be saved to the file `agentic-rag.txt`. See below an example of its content:
 
 ```shell
 Creating new environment agentic-rag
@@ -107,17 +107,24 @@ Install the dependencies required by running the following command in your termi
 pip install -r requirements.txt
 ```
 
-Next, inspect the `app/csv/restaurant_reviews.csv` and `app/csv/user_restaurant_visits.csv` files. 
-Feel free to add additional rows or edit the reviews. Note, though, that for the RAG aspect of this demo you'll also need to 
-create accompanying orders in MongoDB Atlas in a later section.
+Follow one of the options below depending on your OS to create the `.env` file with the environment variables needed for the python scripts:
+<details>
+  <summary>Linux/MacOS:</summary>
 
-* Create the `.env` file by making a copy of the `.env_example` file:
+- Run the script below, it will create the file `.env` with the environment variables with the credentials:
+```shell
+./credentials_parse.sh
+```
+</details>
+<details>
+  <summary>Windows:</summary>
+
+- Create the `.env` file by making a copy of the `.env_example` file:
 ```shell
 cp .env_example .env
 ```
-
-* Edit the `.env` file and enter the endpoints and credentials for your Kafka and Schema Registry clusters (as per output of the command `confluent cloud-kickstart...`):
-```
+- Edit the `.env` file and enter the endpoints and credentials for your Kafka and Schema Registry clusters (as per file `agentic-rag.txt`):
+```shell
 BOOTSTRAP_SERVERS=<Kafka bootstrap servers endpoint>
 KAFKA_API_KEY=<Kafka API key>
 KAFKA_API_SECRET=<Kafka API secret>
@@ -125,9 +132,10 @@ SR_ENDPOINT_URL=<Schema Registry Endpoint>
 SR_API_KEY=<Schema Registry API key>
 SR_API_SECRET=<Schema Registry API secret>
 ```
+</details>
+</br>
 
-* Now run the Python programs to produce the reviews in the CSV file to the `restaurant_reviews` and `user_restaurant_visits` topic.
-  
+Now, run the Python programs to produce the reviews in the CSV file to the `restaurant_reviews` and `user_restaurant_visits` topic.
 ```shell
 cd app/producer
 ```
