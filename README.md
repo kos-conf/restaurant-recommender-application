@@ -108,6 +108,7 @@ source .venv/bin/activate
 ```
 </details>
 </br>
+
 Install the dependencies required by running the following command in your terminal:
 ```shell
 pip install -r requirements.txt
