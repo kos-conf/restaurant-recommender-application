@@ -92,16 +92,22 @@ Second, Create a virtual environment and activater it by running the following c
 python3 -m venv .venv
 ```
 
-For Mac machines
+<details>
+  <summary>Linux/MacOS:</summary>
+
 ```shell
 source .venv/bin/activate
 ```
+</details>
 
-For Windows machines
+<details>
+  <summary>Windows:</summary>
+
 ```shell
 .\scripts\bin\activate.bat
 ```
-
+</details>
+</br>
 Install the dependencies required by running the following command in your terminal:
 ```shell
 pip install -r requirements.txt
