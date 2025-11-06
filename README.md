@@ -187,7 +187,7 @@ confluent flink connection create openai-connection \
     --region us-east-2 \
     --type openai \
     --endpoint https://api.openai.com/v1/chat/completions \
-    --api-key <OPEN AI API KEY>
+    --api-key <OPENAI_API_KEY>
 ```
 
 The response will be similar to this:
@@ -335,9 +335,9 @@ FROM
 cd ../..
 uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 ```
-- The backend will be available at: http://localhost:8000
+- The backend will be available at: http://localhost:8000/chat/messages
 
-### 3. Start the Streamlit UI
+### 2. Start the Streamlit UI
 
 In a new terminal and activate the virtual environemnt
 ```bash
@@ -349,17 +349,17 @@ streamlit run app/ui/chat.py
 - No need to enter an email address, type [ENTER]
 - The UI will open in your browser (default: http://localhost:8501)
 
-### 4. Try Inputting some thing like below
+### 3. Try Inputting some thing like below
 ```bash
 I want to try tasty Pizzas in London
 ```
 
-### 5. We will test again by giving some output like this:
+### 4. We will test again by giving some output like this:
 ```bash
 I have been to <restaurant name> i did not like the taste, recommend me alternatives for Pizza
 ```
 
-### 6. Some prompts you can try
+### 5. Some prompts you can try
 ```bash
 I want to try out Good Fish and Chips in London
 ```
