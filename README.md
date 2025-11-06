@@ -346,7 +346,7 @@ source .venv/bin/activate
 ```bash
 streamlit run app/ui/chat.py
 ```
-- No need to enter an email address, type `[ENTER]`
+- If prompted, no need to enter an email address, just type `[ENTER]`
 - The UI will open in your browser (default: http://localhost:8501)
 
 ### 3. Try Inputting some thing like below
