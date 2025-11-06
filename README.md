@@ -8,7 +8,7 @@ This demo leverages components in Confluent Cloud in order to show how to build 
 
 The following steps and tools are required to run this demo:
 
-* Clone this repo if you haven't already and `cd` into the `restaurant-recommender-application` directory:
+* Open a terminal and clone this repo if you haven't already and go to the `restaurant-recommender-application` directory:
 
 ```shell
 git clone https://github.com/kos-conf/restaurant-recommender-application.git
@@ -21,17 +21,18 @@ cd restaurant-recommender-application
 * An OpenAI account and API key. 
 Once you sign up and add money to your account, go to the [Project API keys page](https://platform.openai.com/api-keys) and click `Create new secret key`. 
 Copy this key, as we will need it later when creating a remote model in Flink.
+
 * A Confluent Cloud account. 
 [Sign up](https://www.confluent.io/confluent-cloud/tryfree) for a free trial if you don't already have one.
+
 * The Confluent CLI. 
 Refer to the installation instructions [here](https://docs.confluent.io/confluent-cli/current/install.html).
 
 ## Provision Kafka cluster
-
 We'll use the Confluent CLI to create a Kafka cluster. First, login to your account by running the following command in your terminal:
 
 ```shell
-confluent login --prompt --save
+confluent login --prompt
 ```
 
 Next, install a CLI plugin that will create many of the resources required for this demo:
@@ -40,9 +41,10 @@ Next, install a CLI plugin that will create many of the resources required for t
 confluent plugin install confluent-cloud_kickstart
 ```
 
-This plugin allows you to provision a Confluent Cloud environment, cluster, and API key in one command. 
-It also enables Schema Registry. 
+This plugin allows you to provision a Confluent Cloud environment, cluster, and API key in one command.
+It also enables Schema Registry.
 You may pick `aws`, `azure`, or `gcp` as the `--cloud` argument, and any supported region returned by `confluent kafka region list` as the `--region` argument. 
+
 For example, to use AWS region `us-east-2`:
 
 ```shell
@@ -53,7 +55,7 @@ confluent cloud-kickstart --name agentic-rag \
   --output-format stdout > agentic-rag.txt
 ```
 
-This command will contain Kafka and Schema Registry API connection properties that we will use in the next section (see example below), they will be saved to the file `agentic-rag.txt`. See below an example of its content:
+The output of this command will contain Kafka and Schema Registry API connection properties that we will use in the next section (see example below), they will be saved to the file `agentic-rag.txt`. See below an example of its content:
 
 ```shell
 Creating new environment agentic-rag
@@ -75,19 +77,20 @@ Schema Registry API secret: <REDACTED>
 ```
 
 ## Produce reviews
-
 Now we can produce product reviews into a `restaurant_reviews` topic on Confluent Cloud.
 
-First, create the topic by running the following command in your terminal:
+First, create the topics by running the following commands in your terminal:
 
 ```shell
 confluent kafka topic create restaurant_reviews
 ```
+
 ```shell
 confluent kafka topic create user_restaurant_visits
 ```
 
 Second, Create a virtual environment and activater it by running the following command in your terminal:
+
 ```shell
 python3 -m venv .venv
 ```
@@ -104,12 +107,13 @@ source .venv/bin/activate
   <summary>Windows:</summary>
 
 ```shell
-.\scripts\bin\activate.bat
+.\.venv\bin\activate.bat
 ```
 </details>
 </br>
 
 Install the dependencies required by running the following command in your terminal:
+
 ```shell
 pip install -r requirements.txt
 ```
@@ -119,18 +123,23 @@ Follow one of the options below depending on your OS to create the `.env` file w
   <summary>Linux/MacOS:</summary>
 
 - Run the script below, it will create the file `.env` with the environment variables with the credentials:
+
 ```shell
 ./credentials_parse.sh
 ```
+
 </details>
 <details>
   <summary>Windows:</summary>
 
 - Create the `.env` file by making a copy of the `.env_example` file:
+
 ```shell
 cp .env_example .env
 ```
+
 - Edit the `.env` file and enter the endpoints and credentials for your Kafka and Schema Registry clusters (as per file `agentic-rag.txt`):
+
 ```shell
 BOOTSTRAP_SERVERS=<Kafka bootstrap servers endpoint>
 KAFKA_API_KEY=<Kafka API key>
@@ -143,6 +152,7 @@ SR_API_SECRET=<Schema Registry API secret>
 </br>
 
 Now, run the Python programs to produce the reviews in the CSV file to the `restaurant_reviews` and `user_restaurant_visits` topic.
+
 ```shell
 cd app/producer
 ```
@@ -152,6 +162,7 @@ python restaurant_reviews_producer.py
 ```
   
 You should see output like:
+
 ```shell
 Producing restaurant review records to topic restaurant_reviews. ^C to exit.
 Review record with Id b'LON004' successfully produced to Topic:restaurant_reviews Partition: [4] at offset 0
@@ -163,6 +174,7 @@ Review record with Id b'LON001' successfully produced to Topic:restaurant_review
 ```
 
 use python3 if you have python3
+
 ```shell
 python user_visit_producer.py
 ```
@@ -179,14 +191,11 @@ Visit record with Id b'VLDN02' successfully produced to Topic:user_restaurant_vi
 
 
 ## Create remote model
-
-Now, create a Flink compute pool in the Confluent Cloud Console by navigating to the [Environments page](https://confluent.cloud/environments),
-selecting the `agentic-rag` environment, and then clicking the `Flink` tab in the top header:
+Now, create a Flink compute pool in the Confluent Cloud Console by navigating to the [Environments page](https://confluent.cloud/environments), selecting the `agentic-rag` environment, and then clicking the `Flink` tab in the top header:
 
 ![Flink tab](img/cc-flink-tab.png)
 
-Click the `Create compute pool` button, pick the cloud `aws` and region `us-east-2` that you used earlier in the 
-`confluent cloud-kickstart` command, and then click `Create`.
+Click the `Create compute pool` button, pick the cloud `aws` and region `us-east-2` that you used earlier in the `confluent cloud-kickstart` command, and then click `Create`.
 
 You will see the compute pool tile showing that the pool is `Provisioning`:
 
@@ -345,7 +354,8 @@ FROM
 
 ### 1. Start the FastAPI Backend by going
 
-In a new terminal and activate the virtual environemnt
+In a new terminal, go to the application folder and activate the virtual environment.
+
 ```bash
 cd restaurant-recommender-application
 source .venv/bin/activate
@@ -358,18 +368,20 @@ uvicorn app.server.main:app --host 0.0.0.0 --port 8000
 - The backend will be available at: http://localhost:8000/chat/messages
 
 ### 2. Start the Streamlit UI
-In a new terminal and activate the virtual environemnt
+In a new terminal, again, go to the application folder and activate the virtual environment.
+
 ```bash
 cd restaurant-recommender-application
 source .venv/bin/activate
 ```
 
-In the main folder and start the WebUI application
+In the main folder and start the WebUI application.
+
 ```bash
 streamlit run app/ui/chat.py
 ```
 
-- If prompted, no need to enter an email address, just type `[ENTER]`
+- If prompted, no need to enter an email address, just press `[ENTER]`
 - The UI will open in your browser (default: http://localhost:8501)
 
 ### 3. Try Inputting some thing like below
@@ -423,7 +435,7 @@ Once you are done exploring, don't forget to tear down Confluent Cloud resources
 
 On the Confluent Cloud side, since you created all resources in an environment, you can simply delete the environment and then all resources created for this demo will be deleted (i.e., the Kafka cluster, connector, Flink compute pool, and associated API keys). 
 
-Run the following command in your terminal to get the environment ID of the form `env-123456` corresponding to the environment named `agentic-rag:
+Run the following command in your terminal to get the environment ID of the form `env-xxxxxx` corresponding to the environment named `agentic-rag`:
 
 ```shell
 confluent environment list
