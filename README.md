@@ -391,7 +391,7 @@ A famous Thai Green Curry in London
 You'll notice different responses for each based on LLM knowledge base and reviews fed as input.
 
 The image below shows a high level view of the recomendation engine data flow:
-![Recomendation engine](img/recomendation_engine.png)
+![Recomendation engine](img/recomendation-engine.png)
 
 ## Tear down infrastructure
 Once you are done exploring, don't forget to tear down Confluent Cloud resources created for this demo.
